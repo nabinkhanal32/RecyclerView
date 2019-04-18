@@ -1,7 +1,9 @@
 package com.e.recyclerview.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,23 +15,38 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder> {
+import static com.e.recyclerview.R.id.tvName;
 
+public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder> {
+    Context mContext;
+    List <Contacts> contactsList;
+
+    public ContactsAdapter(Context mContext, List<Contacts> contactsList) {
+        this.mContext = mContext;
+        this.contactsList = contactsList;
+    }
 
     @NonNull
     @Override
     public ContactsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return null;
+       View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.contact,viewGroup
+       ,false);
+       return new ContactsViewHolder(view);
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull ContactsViewHolder contactViewHolder, int i) {
+    Contacts contacts = contactsList.get(i);
+    contactViewHolder.imgProfile.setImageResource(contacts.getImgId());
+    contactViewHolder.tvName.setText(contacts.getName());
+    contactViewHolder.tvPhone.setText(contacts.getPhoneNo());
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return contactsList.size();
     }
 
     public class ContactsViewHolder extends RecyclerView.ViewHolder
@@ -40,8 +57,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         {
             super(itemView);
             imgProfile = itemView.findViewById(R.id.imgProfile);
-            tvName = itemView.findViewsWithText(R.id.tvName);
-            tvPhone = itemView.findViewsWithText(R.id.tvPhone);
+            tvName = itemView.findViewById(R.id.tvName);
+            tvPhone = itemView.findViewById(R.id.tvPhone);
 
         }
 
